@@ -11,14 +11,16 @@ interface VideoPlayerProps {
 export const VideoPlayer: React.FC<VideoPlayerProps> = ({ movie }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const trailerRef = useRef<HTMLVideoElement>(null);
+
+  const movieEmbedSrc = 'https://myvidplay.com/e/9x58awnbuqds?autoplay=1';
 
   const handlePlay = () => {
     setIsPlaying(true);
     setTimeout(() => {
-      if (videoRef.current) {
-        videoRef.current.muted = isMuted;
-        videoRef.current.play();
+      if (trailerRef.current) {
+        trailerRef.current.muted = isMuted;
+        trailerRef.current.pause();
       }
     }, 100);
   };
@@ -26,8 +28,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ movie }) => {
   const toggleMute = () => {
     setIsMuted((prev) => {
       const next = !prev;
-      if (videoRef.current) {
-        videoRef.current.muted = next;
+      if (trailerRef.current) {
+        trailerRef.current.muted = next;
       }
       return next;
     });
@@ -39,7 +41,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ movie }) => {
         // Trailer State (autoplay, loop, muted)
         <div className="absolute inset-0 z-10">
           <video
-            ref={videoRef}
+            ref={trailerRef}
             src={trailerSrc}
             className="w-full h-full object-cover"
             autoPlay
@@ -62,39 +64,39 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ movie }) => {
         </div>
       ) : (
         // Active Movie State
-        <video 
-          ref={videoRef}
-          src={movie.videoUrl} 
+        <iframe
+          src={movieEmbedSrc}
           className="w-full h-full"
-          controls
-          autoPlay
-          muted={isMuted}
-          controlsList="nodownload"
-        >
-          Seu navegador não suporta a tag de vídeo.
-        </video>
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+          title={`${movie.title} - ${movie.subtitle}`}
+        />
       )}
 
       {/* Logo overlay - bottom left */}
-      <div className="pointer-events-none absolute left-4 bottom-4 z-30 w-40 md:w-56">
-        <img
-          src={logoHorizontal}
-          alt={`${movie.title} - ${movie.subtitle}`}
-          className="w-full h-auto drop-shadow-2xl"
-        />
-      </div>
+      {!isPlaying && (
+        <>
+          <div className="pointer-events-none absolute left-4 bottom-4 z-30 w-40 md:w-56">
+            <img
+              src={logoHorizontal}
+              alt={`${movie.title} - ${movie.subtitle}`}
+              className="w-full h-auto drop-shadow-2xl"
+            />
+          </div>
 
-      {/* Mute / Unmute button - bottom right */}
-      <button
-        type="button"
-        onClick={toggleMute}
-        className="absolute right-4 bottom-4 z-30 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center"
-        aria-label={isMuted ? 'Ativar som' : 'Silenciar'}
-      >
-        <span className="text-lg">
-          {isMuted ? '🔇' : '🔊'}
-        </span>
-      </button>
+          {/* Mute / Unmute button - bottom right */}
+          <button
+            type="button"
+            onClick={toggleMute}
+            className="absolute right-4 bottom-4 z-30 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center"
+            aria-label={isMuted ? 'Ativar som' : 'Silenciar'}
+          >
+            <span className="text-lg">
+              {isMuted ? '🔇' : '🔊'}
+            </span>
+          </button>
+        </>
+      )}
     </div>
   );
 };
