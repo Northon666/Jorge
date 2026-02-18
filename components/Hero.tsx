@@ -53,6 +53,16 @@ export const Hero: React.FC<HeroProps> = ({ movie, onWatchClick }) => {
             <span>{movie.year}</span>
             <span className="border border-gray-500 px-2 py-0.5 rounded text-xs">{movie.rating}</span>
             <span>{movie.duration}</span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-geass-red/20 text-geass-red px-2 py-0.5 text-xs font-semibold">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="h-3 w-3 fill-current"
+              >
+                <path d="M12 21s-7.5-4.6-9.5-8.9C1 9 2.6 6.5 5.6 6.5c2 0 3.4 1.1 4.4 2.5 1-1.4 2.4-2.5 4.4-2.5 3 0 4.6 2.5 3.1 5.6C19.5 16.4 12 21 12 21z" />
+              </svg>
+              Dublado
+            </span>
           </div>
 
           {/* Synopsis */}
