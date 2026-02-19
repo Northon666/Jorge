@@ -45,6 +45,10 @@ export const Hero: React.FC<HeroProps> = ({ movie, onWatchClick }) => {
                 {movie.title}: {movie.subtitle}
               </span>
             </div>
+
+            <h1 className="sr-only">
+              Code Geass Ressurreição de Lelouch Dublado
+            </h1>
           </div>
 
           {/* Meta Badges */}
@@ -53,6 +57,9 @@ export const Hero: React.FC<HeroProps> = ({ movie, onWatchClick }) => {
             <span>{movie.year}</span>
             <span className="border border-gray-500 px-2 py-0.5 rounded text-xs">{movie.rating}</span>
             <span>{movie.duration}</span>
+            <span className="flex items-center gap-1 px-3 py-0.5 rounded-full border border-geass-gold/70 bg-black/40 text-[0.65rem] uppercase tracking-wide text-geass-gold">
+              Dublado
+            </span>
           </div>
 
           {/* Synopsis */}
